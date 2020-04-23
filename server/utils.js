@@ -5,12 +5,17 @@ module.exports = {
       0,
     );
   },
+
   attachUserName(users, posts) {
     let userDict = users.reduce((accum, user) => {
       accum[user.id] = user;
       return accum;
     }, {});
-    return posts.map(post => {
+    return posts
+      .filter(post => {
+        return userDict[post.userId]
+      })
+      .map(post => {
       post.displayName = `${userDict[post.userId].first} ${
         userDict[post.userId].last
       }`;
